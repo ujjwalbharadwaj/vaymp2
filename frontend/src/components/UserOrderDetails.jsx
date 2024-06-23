@@ -176,6 +176,8 @@ let active;
   if (data?.delivered) active = 3;
   if (data?.return1) active = 4;
   if (data?.status === "Returned") active = 5;
+  if (data?.status === "cancel Request") active = 6;
+
 
 
   if (loading) {
@@ -264,57 +266,98 @@ console.log("selectedItem,,,,,,,,,,,,,,,,,,",data.orderid)
       <br />
       <br />
       {/* Progress Feature */}
+      {/* Progress Feature */}
       <div className="w-full flex flex-col items-center pt-10">
         <h2 className="text-[24px]">Order Progress</h2>
         <div className="w-full max-w-[600px] flex justify-between mt-4">
-          <div className={`flex flex-col items-center ${active >= 1 ? "text-red-600" : "text-gray-400"}`}>
-            <div className={`w-8 h-8 rounded-full border-2 ${active >= 1 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
-              1
-            </div>
-            <p className="mt-2">Processing</p>
-          </div>
-          <div className={`flex flex-col items-center ${active >= 2 ? "text-red-600" : "text-gray-400"}`}>
-            <div className={`w-8 h-8 rounded-full border-2 ${active >= 2 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
-              2
-            </div>
-            <p className="mt-2">Shipped</p>
-          </div>
-          <div className={`flex flex-col items-center ${active >= 3 ? "text-red-600" : "text-gray-400"}`}>
-            <div className={`w-8 h-8 rounded-full border-2 ${active >= 3 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
-              3
-            </div>
-            <p className="mt-2">Delivered</p>
-          </div>
-          <div className={`flex flex-col items-center ${active >= 4 ? "text-red-600" : "text-gray-400"}`}>
-            <div className={`w-8 h-8 rounded-full border-2 ${active >= 4 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
-              4
-            </div>
-            <p className="mt-2">Return Requested</p>
-          </div>
-          <div className={`flex flex-col items-center ${active >= 5 ? "text-red-600" : "text-gray-400"}`}>
-            <div className={`w-8 h-8 rounded-full border-2 ${active >= 5 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
-              5
-            </div>
-            <p className="mt-2">Returned</p>
-          </div>
+          {data.return1 ? (
+            <>
+            <div className={`flex flex-col items-center ${active >= 1 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active >= 1 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  1
+                </div>
+                <p className="mt-2">Processing</p>
+              </div>
+              <div className={`flex flex-col items-center ${active >= 2 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active >= 2 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  2
+                </div>
+                <p className="mt-2">Shipped</p>
+              </div>
+              <div className={`flex flex-col items-center ${active >= 3 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active >= 3 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  3
+                </div>
+                <p className="mt-2">Delivered</p>
+              </div>
+              <div className={`flex flex-col items-center ${active >= 4 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active >= 4 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  4
+                </div>
+                <p className="mt-2">Return Requested</p>
+              </div>
+              <div className={`flex flex-col items-center ${active >= 5 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active >= 5 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  5
+                </div>
+                <p className="mt-2">Returned</p>
+              </div>
+            </>
+          ) : active === 6 ? (
+            <>
+              <div className={`flex flex-col items-center ${active >= 1 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active >= 1 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  1
+                </div>
+                <p className="mt-2">Processing</p>
+              </div>
+              <div className={`flex flex-col items-center ${active === 6 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active === 6 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  6
+                </div>
+                <p className="mt-2">Cancelled</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={`flex flex-col items-center ${active >= 1 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active >= 1 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  1
+                </div>
+                <p className="mt-2">Processing</p>
+              </div>
+              <div className={`flex flex-col items-center ${active >= 2 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active >= 2 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  2
+                </div>
+                <p className="mt-2">Shipped</p>
+              </div>
+              <div className={`flex flex-col items-center ${active >= 3 ? "text-red-600" : "text-gray-400"}`}>
+                <div className={`w-8 h-8 rounded-full border-2 ${active >= 3 ? "border-red-600" : "border-gray-400"} flex items-center justify-center`}>
+                  3
+                </div>
+                <p className="mt-2">Delivered</p>
+              </div>
+            </>
+          )}
         </div>
       </div>
-      {/* End of Progress Feature */}
       <br />
       <div className="border-t w-full text-center">
         <h5 className="pt-3 text-[18px]">
-          {data.status === "Processing"
-            ? "Your order is processing in shop."
+          {data.status === "Returned"
+            ? "Your order is returned!"
             : data.status === "Transferred to delivery partner"
             ? "Your order is on the way!"
             : data.status === "Delivered"
             ? "Your order is delivered!"
             : data.status === "Return requested"
             ? "Your return request is in process!"
-            : "Your order is returned!"}
+            : data.status === "cancel Request"
+            ? "Your order has been cancel Request!"
+            : "Your order is processing in shop."}
         </h5>
       </div>
-
       <br />
       {data ? (
       <div className="w-full flex items-start mb-5">
@@ -493,7 +536,7 @@ console.log("selectedItem,,,,,,,,,,,,,,,,,,",data.orderid)
           <Button
             variant="contained"
             color="error"
-            disabled={data.status== "Cancelled"?true:data.cancel}
+            disabled={data.status== "cancel Request"?true:data.cancel}
             // disabled={data.cancel}
             onClick={async () => {
               console.log("================???????", data);

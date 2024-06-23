@@ -25,6 +25,18 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const lastUsedAddress = user.addresses.find(address => address.isLastUsed);
+    if (lastUsedAddress) {
+      setUsername(lastUsedAddress.userName);
+      setPhoneNumber(lastUsedAddress.phoneNumber);
+      setCity(lastUsedAddress.city);
+      setAddress1(lastUsedAddress.address1);
+      setAddress2(lastUsedAddress.address2);
+      setZipCode(lastUsedAddress.zipCode);
+    }
+  }, [user]);
+
+  useEffect(() => {
     console.log("checkout cart data", cart);
   }, [cart]);
 
@@ -218,6 +230,11 @@ const ShippingInfo = ({
     setCity(item.city);
   };
 
+  const handleChooseSavedAddressClick = (e) => {
+    e.preventDefault(); // Prevent default form submission
+    setUserInfo(!userInfo);
+  };
+
   return (
     <div className="w-full 800px:w-[95%] bg-white rounded-md p-5 pb-8">
       <h5 className="text-[18px] font-[500]">Shipping Address</h5>
@@ -229,8 +246,7 @@ const ShippingInfo = ({
             <input
               type="text"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
+              disabled
               className={`${styles.input} !w-[95%]`}
             />
           </div>
@@ -240,7 +256,7 @@ const ShippingInfo = ({
               type="city"
               required
               value={city}
-              onChange={(e) => setCity(e.target.value)}
+              disabled
               className={`${styles.input} !w-[95%]`}
             />
           </div>
@@ -253,7 +269,7 @@ const ShippingInfo = ({
               type="number"
               required
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              disabled
               className={`${styles.input} !w-[95%]`}
             />
           </div>
@@ -263,7 +279,7 @@ const ShippingInfo = ({
               type="number"
               required
               value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
+              disabled
               className={`${styles.input} !w-[95%]`}
             />
           </div>
@@ -276,7 +292,7 @@ const ShippingInfo = ({
               type="address"
               required
               value={address1}
-              onChange={(e) => setAddress1(e.target.value)}
+              disabled
               className={`${styles.input} !w-[95%]`}
             />
           </div>
@@ -286,7 +302,7 @@ const ShippingInfo = ({
             <input
               type="address"
               value={address2}
-              onChange={(e) => setAddress2(e.target.value)}
+              disabled
               className={`${styles.input} !w-[95%]`}
             />
           </div>
@@ -296,7 +312,7 @@ const ShippingInfo = ({
       <br />
         <button
           className="text-[18px] cursor-pointer inline-block bg-gradient-to-r from-purple-400 to-blue-500 text-white px-4 py-2 rounded-md shadow-lg hover:from-blue-500 hover:to-purple-400 transition duration-300"
-          onClick={() => setUserInfo(!userInfo)}
+          onClick= {handleChooseSavedAddressClick}
         >
           Choose From saved address
         </button>
@@ -349,7 +365,7 @@ const CartData = ({
             onChange={(e) => setCouponCode(e.target.value)}
             className={`${styles.input} !w-[60%]`}
           />
-          <button type="submit" className={`${styles.button} !w-[30%] ml-3`}>
+          <button type="submit" className={`${styles.button} !w-[30%] ml-3 bg-blue-400`}>
             Apply
           </button>
         </div>

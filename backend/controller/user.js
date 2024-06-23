@@ -263,7 +263,39 @@ router.put(
     });
   })
 );
+router.get(
+  "/update-user-address",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
 
+    // Reset the isLastUsed flag for all addresses
+    user.addresses.forEach(address => {
+      address.isLastUsed = false;
+    });
+
+    const { _id, ...newAddressData } = req.body;
+
+    if (_id) {
+      // Update existing address
+      const addressIndex = user.addresses.findIndex(address => address._id.toString() === _id);
+      if (addressIndex > -1) {
+        user.addresses[addressIndex] = { ...user.addresses[addressIndex], ...newAddressData, isLastUsed: true };
+      }
+    } else {
+      // Add new address
+      newAddressData.isLastUsed = true;
+      user.addresses.push(newAddressData);
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  })
+);
 
 // delete user address
 router.delete(
