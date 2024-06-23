@@ -119,7 +119,7 @@ const EventCard = ({ active, data }) => {
               </div>
             </div>
           </div>
-          <div
+          {/* <div
             className={`${styles.button} !mt-6 !rounded !h-11 flex items-center mr-10 bg-slate-200`}
             onClick={() => {
               if (selectedSize === "") {
@@ -130,7 +130,7 @@ const EventCard = ({ active, data }) => {
             }}
           >
             Add to cart
-          </div>
+          </div> */}
         </div>
         <CountDown data={data} />
         <br />

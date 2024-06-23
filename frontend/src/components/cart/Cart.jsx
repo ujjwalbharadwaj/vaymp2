@@ -5,7 +5,11 @@ import { HiOutlineMinus, HiPlus } from "react-icons/hi";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addTocart, removeFromCart,updateTocart } from "../../redux/actions/cart";
+import {
+  addTocart,
+  removeFromCart,
+  updateTocart,
+} from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../../redux/actions/product";
@@ -17,65 +21,64 @@ const Cart = ({ setOpenCart }) => {
   const dispatch = useDispatch();
   console.log("cartjj", cart);
   let totalCount = 0;
-    cart.forEach(item => {
-    item.stock.forEach(stockItem => {
+  cart.forEach((item) => {
+    item.stock.forEach((stockItem) => {
       if (stockItem.isSelected) {
         totalCount += 1;
       }
     });
   });
-  
-  console.log(totalCount);
-  const removeFromCartHandler = (data,selectedSize) => {
 
-    console.log("removeFromCartHandler",selectedSize)
+  console.log(totalCount);
+  const removeFromCartHandler = (data, selectedSize) => {
+    console.log("removeFromCartHandler", selectedSize);
 
     let updateCartData = JSON.parse(JSON.stringify(data));
     //addToCartHandler(data._id, data.size, quantity, data, st);
-    console.log("5555", selectedSize,data);
-    updateCartData.stock.forEach((val)=>{
-      if(val.size==selectedSize){
-        val.quantity=val.quantity+val.qty ;
-       val.qty=0
-       val.isSelected=false;
+    console.log("5555", selectedSize, data);
+    updateCartData.stock.forEach((val) => {
+      if (val.size == selectedSize) {
+        val.quantity = val.quantity + val.qty;
+        val.qty = 0;
+        val.isSelected = false;
       }
       //console.log("nmnm",val)
-    })
-  console.log("nmnm",updateCartData)
-  let newCart=JSON.parse(JSON.stringify(cart));
-  const itemIndex = newCart.findIndex((item) => item._id === updateCartData._id);
-
-  if (itemIndex !== -1) {
-    // Update the item at the found index with newData
-    newCart[itemIndex] =updateCartData;
-    console.log("newCart updated", updateCartData);
-  } else {
-    console.log("Item not found in newCart array");
-  }
-  dispatch(updateTocart(newCart));
-  newCart.forEach((val5) => {
-    let p = false;
-    val5.stock.forEach((st) => {
-      p = p || st.isSelected;
     });
-    if (p === false) {
-      dispatch(removeFromCart(val5));
-    }
-  });
-  
+    console.log("nmnm", updateCartData);
+    let newCart = JSON.parse(JSON.stringify(cart));
+    const itemIndex = newCart.findIndex(
+      (item) => item._id === updateCartData._id
+    );
 
-  }; 
+    if (itemIndex !== -1) {
+      // Update the item at the found index with newData
+      newCart[itemIndex] = updateCartData;
+      console.log("newCart updated", updateCartData);
+    } else {
+      console.log("Item not found in newCart array");
+    }
+    dispatch(updateTocart(newCart));
+    newCart.forEach((val5) => {
+      let p = false;
+      val5.stock.forEach((st) => {
+        p = p || st.isSelected;
+      });
+      if (p === false) {
+        dispatch(removeFromCart(val5));
+      }
+    });
+  };
   const totalPrice = cart.reduce((acc, item) => {
     // Calculate the total discounted price for each item based on qty and discountPrice
     const itemTotal = item.stock.reduce(
       (itemAcc, stockItem) => itemAcc + stockItem.qty * item.discountPrice,
       0
     );
-  
+
     // Add the total discounted price of this item to the accumulator
     return acc + itemTotal;
   }, 0);
-  
+
   console.log("Total discounted price:", totalPrice);
   const handleCloseClick = (event) => {
     // Check if the click target is the overlay (wishlistRef) itself
@@ -104,7 +107,7 @@ const Cart = ({ setOpenCart }) => {
     });
     oldData.stock = l;
     console.log("lllll", oldData);
-   
+
     try {
       // await updateStockAfterOrderCreation(itemToUpdate);
       dispatch(addTocart(oldData));
@@ -118,29 +121,31 @@ const Cart = ({ setOpenCart }) => {
     //   }
   };
 
-  const quantityChangeHandler = (data, quantity, st,selectedSize) => {
+  const quantityChangeHandler = (data, quantity, st, selectedSize) => {
     const updateCartData = JSON.parse(JSON.stringify(data));
     //addToCartHandler(data._id, data.size, quantity, data, st);
-    console.log("ffffffff", quantity, st,selectedSize,data);
-    updateCartData.stock.forEach((val)=>{
-      if(val.size==selectedSize){
-       val.qty=quantity
+    console.log("ffffffff", quantity, st, selectedSize, data);
+    updateCartData.stock.forEach((val) => {
+      if (val.size == selectedSize) {
+        val.qty = quantity;
       }
       //console.log("nmnm",val)
-    })
-  console.log("nmnm",updateCartData)
-  let newCart=JSON.parse(JSON.stringify(cart));
-  // Find the index of the item in newCart array
-  const itemIndex = newCart.findIndex((item) => item._id === updateCartData._id);
+    });
+    console.log("nmnm", updateCartData);
+    let newCart = JSON.parse(JSON.stringify(cart));
+    // Find the index of the item in newCart array
+    const itemIndex = newCart.findIndex(
+      (item) => item._id === updateCartData._id
+    );
 
-  if (itemIndex !== -1) {
-    // Update the item at the found index with newData
-    newCart[itemIndex] =updateCartData;
-    console.log("newCart updated", updateCartData);
-  } else {
-    console.log("Item not found in newCart array");
-  }
-  dispatch(updateTocart(newCart));
+    if (itemIndex !== -1) {
+      // Update the item at the found index with newData
+      newCart[itemIndex] = updateCartData;
+      console.log("newCart updated", updateCartData);
+    } else {
+      console.log("Item not found in newCart array");
+    }
+    dispatch(updateTocart(newCart));
     // dispatch(addTocart(updateCartData));
   };
 
@@ -151,7 +156,7 @@ const Cart = ({ setOpenCart }) => {
       onClick={handleCloseClick}
     >
       <div
-        className="fixed top-0 right-0 h-full w-[85%] overflow-y-scroll 800px:w-[400px] bg-white flex flex-col justify-between shadow-sm"
+        className="fixed top-0 right-0 h-full w-[85%] overflow-y-scroll 450px:w-[400px] 800px:w-[400px] bg-white flex flex-col justify-between shadow-sm"
         ref={cartRef}
       >
         {totalCount === 0 ? (
@@ -210,8 +215,6 @@ const Cart = ({ setOpenCart }) => {
                       </div>
                     );
                   })}
-
-
               </div>
             </div>
 
@@ -234,23 +237,34 @@ const Cart = ({ setOpenCart }) => {
   );
 };
 
-const CartSingle = ({ val2,data, quantityChangeHandler, removeFromCartHandler }) => {
+const CartSingle = ({
+  val2,
+  data,
+  quantityChangeHandler,
+  removeFromCartHandler,
+}) => {
   const [selectedSize, setSelectedSize] = useState(val2.size); // Example: Initialize selected size state
   const [value, setValue] = useState(val2.qty);
   const totalPrice = data.discountPrice * value;
-  const {allProducts} = useSelector((state) => state.products);
-  const [error,setError]=useState("");
+  const { allProducts } = useSelector((state) => state.products);
+  const [error, setError] = useState("");
   useEffect(() => {
     // Check if the selected size has a quantity of 0 and remove it from the cart if true
     if (allProducts && Array.isArray(allProducts)) {
-      const matchingProduct = allProducts.find((product) => product._id === data._id);
+      const matchingProduct = allProducts.find(
+        (product) => product._id === data._id
+      );
       console.log("matchingProduct", matchingProduct);
       if (matchingProduct && matchingProduct.stock) {
-        const stockItem = matchingProduct.stock.find((item) => item.size === selectedSize);
+        const stockItem = matchingProduct.stock.find(
+          (item) => item.size === selectedSize
+        );
         console.log("stockItem", stockItem);
         if (stockItem && stockItem.quantity === 0) {
           removeFromCartHandler(data, selectedSize);
-          toast.error(`The size ${selectedSize} for the product ${data.name} is out of stock and has been removed from the cart.`);
+          toast.error(
+            `The size ${selectedSize} for the product ${data.name} is out of stock and has been removed from the cart.`
+          );
         }
       }
     }
@@ -263,20 +277,24 @@ const CartSingle = ({ val2,data, quantityChangeHandler, removeFromCartHandler })
       toast.error("Product stock limited!");
     } else {
       setValue(value + 1);
-      quantityChangeHandler(data, value + 1, "inc",selectedSize);
+      quantityChangeHandler(data, value + 1, "inc", selectedSize);
     }
   };
 
   const decrement = () => {
     setValue(value === 1 ? 1 : value - 1);
-    quantityChangeHandler(data, value === 1 ? 1 : value - 1, "dec",selectedSize);
+    quantityChangeHandler(
+      data,
+      value === 1 ? 1 : value - 1,
+      "dec",
+      selectedSize
+    );
   };
   const isProductNameShort = data.name.length < 20;
   const navigate = useNavigate();
   const handleProductClick = () => {
     navigate(`/product/${data._id}`);
     window.location.reload();
-    
   };
 
   return (
@@ -292,15 +310,23 @@ const CartSingle = ({ val2,data, quantityChangeHandler, removeFromCartHandler })
           className="flex-grow pl-[5px] cursor-pointer"
           onClick={handleProductClick}
         >
-          <h1 style={{ marginBottom: "10px" }}>{data.name.slice(0,20)}</h1>
+          <h1 style={{ marginBottom: "10px" }}>{data.name.slice(0, 20)}</h1>
           <div>Size: {selectedSize}</div>
           <div className="flex items-center whitespace-nowrap">
             <span className="text-[12px] text-green-500 font-bold mr-2">
-              ({Math.round(((data.originalPrice - data.discountPrice) / data.originalPrice) * 100)}% off)
+              (
+              {Math.round(
+                ((data.originalPrice - data.discountPrice) /
+                  data.originalPrice) *
+                  100
+              )}
+              % off)
             </span>
             {data.originalPrice && (
               <span className="flex items-center mr-2">
-                <del className="text-[14px] text-[#00000082]">₹{data.originalPrice}</del>
+                <del className="text-[14px] text-[#00000082]">
+                  ₹{data.originalPrice}
+                </del>
               </span>
             )}
             <span className="font-[500] text-[15px] text-[#000000] font-Roboto">
@@ -310,34 +336,36 @@ const CartSingle = ({ val2,data, quantityChangeHandler, removeFromCartHandler })
         </div>
       </div>
       <div className="flex justify-between">
-      <div className="flex items-center">
-        <div className="flex items-center ml-36">
-          <div
-            className="hover:bg-[#eab45dd5] border border-[#e4434373] rounded-full w-[20px] h-[20px] ${styles.noramlFlex} justify-center cursor-pointer"
-            onClick={increment}
-          >
-            <HiPlus size={18} color="#7d879c" />
+        <div className="flex items-center">
+          <div className="flex items-center mt-2">
+            <div
+              className="hover:bg-[#eab45dd5] bg-[#a7abb14f] border border-[#e4434373] rounded-full w-[20px] h-[20px] flex items-center justify-center cursor-pointer"
+              onClick={decrement}
+            >
+              <HiOutlineMinus size={16} color="#7d879c" />
+            </div>
+            <div className="bg-[#f7f7f7] border border-[#e4434373] rounded-t-sm w-[35px] h-[25px] flex justify-center items-center mx-1">
+              <span className="text-[15px] text-[#000000] font-Roboto">
+                {value}
+              </span>
+            </div>
+            <div
+              className="hover:bg-[#eab45dd5] border border-[#e4434373] rounded-full w-[20px] h-[20px] ${styles.noramlFlex} justify-center cursor-pointer"
+              onClick={increment}
+            >
+              <HiPlus size={18} color="#7d879c" />
+            </div>
           </div>
-          <div
-          className="bg-[#f7f7f7] border border-[#e4434373] rounded-t-sm w-[25px] h-[25px] flex justify-center items-center"
-        >
-          <span className="text-[15px] text-[#000000] font-Roboto">{value}</span>
         </div>
-          <div
-            className="hover:bg-[#eab45dd5] bg-[#a7abb14f] border border-[#e4434373] rounded-full w-[20px] h-[20px] flex items-center justify-center cursor-pointer"
-            onClick={decrement}
+        <div className="flex justify-end">
+          <button
+            className="hover:text-[#f06865] border border-[#e4434373] font-Roboto text-[14px] cursor-pointer pl-3 pr-3 py-1 flex items-center justify-center shadow-md"
+            onClick={() => removeFromCartHandler(data, selectedSize)}
           >
-            <HiOutlineMinus size={16} color="#7d879c" />
-          </div>
+            Remove
+          </button>
         </div>
-        </div>
-        <button
-        className="hover:text-[#f06865] border border-[#e4434373] font-Roboto text-[14px] cursor-pointer pl-3 pr-3 py-1 flex items-center justify-center shadow-md"
-        onClick={() => removeFromCartHandler(data, selectedSize)}
-      >
-        Remove
-      </button>
-        </div>
+      </div>
     </div>
   );
 };

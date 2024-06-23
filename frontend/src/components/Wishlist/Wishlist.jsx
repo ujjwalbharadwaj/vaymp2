@@ -38,7 +38,7 @@ const Wishlist = ({ setOpenWishlist }) => {
       className="fixed top-0 left-0 w-full h-screen z-20 flex items-center justify-center bg-[#0000004b]"
       onClick={handleCloseClick}
     >
-      <div className="fixed top-0 right-0 h-full w-[80%] overflow-y-scroll 800px:w-[400px] bg-white flex flex-col justify-between shadow-sm" ref={wishlistRef}>
+      <div className="fixed top-0 right-0 h-full w-[85%] overflow-y-scroll 450px:w-[400px] 800px:w-[400px] bg-white flex flex-col justify-between shadow-sm" ref={wishlistRef}>
         {wishlist && wishlist.length === 0 ? (
           <div className="w-full h-screen flex items-center justify-center">
             <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
@@ -99,44 +99,46 @@ const CartSingle = ({ data,removeFromWishlistHandler }) => {
   };
 
   return (
-    <div className="border-b p-4 cursor-pointer" onClick={handleProductClick}>
+    <div className="border-[#928f8f] border-t-[1px] border-b-[1px] p-4 cursor-pointer" onClick={handleProductClick}>
       <div className="w-full flex items-center">
-      <RxCross1
-          className="cursor-pointer mb-2 ml-2 800px:mb-0 800px:ml-0"
-          onClick={(e) => {
-            e.stopPropagation(); // Prevent triggering the navigation
-            removeFromWishlistHandler(data);
-          }}
-        />
         <img
           src={`${data?.images[0]?.url}`}
           alt=""
-          className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
+          className="w-[90px] h-min ml-2 mr-2 rounded-[5px]"
         />
 
         <div className="flex-1 pl-[5px] overflow-hidden">
-          <h1>{data.name}</h1>
-          <h4 className="py-2 font-[400] text-[15px] text-[#00000082]">
-            {/* Displaying the discount amount */}
-            {data.originalPrice && (
-              <span>
-              <del>₹{data.originalPrice}</del>{" "}
-              <br className="sm:hidden" /> {/* Line break on small screens */}
-              <span className="sm:inline-block">
-                (Save ₹{(data.originalPrice - data.discountPrice) * value})
-              </span>
+        <h1 style={{ marginBottom: "10px" }}>{data.name.slice(0, 20)}</h1>
+        <div className="flex items-center whitespace-nowrap">
+            <span className="text-[12px] text-green-500 font-bold mr-2">
+              (
+              {Math.round(
+                ((data.originalPrice - data.discountPrice) /
+                  data.originalPrice) *
+                  100
+              )}
+              % off)
             </span>
+            {data.originalPrice && (
+              <span className="flex items-center mr-2">
+                <del className="text-[14px] text-[#00000082]">
+                  ₹{data.originalPrice}
+                </del>
+              </span>
             )}
-          </h4>
-          <h4 className="font-[600] pt-3 800px:pt-[3px] text-[17px] text-[#d02222] font-Roboto">
-            ₹{totalPrice}
-          </h4>
+            <span className="font-[500] text-[15px] text-[#000000] font-Roboto">
+              ₹{totalPrice}
+            </span>
+          </div>
+          <div className="flex justify-end mt-5">
+            <button
+              className="hover:text-[#f06865] border border-[#e4434373] font-Roboto text-[14px] cursor-pointer pl-3 pr-3 py-1 flex items-center justify-center shadow-md"
+              onClick={() => removeFromWishlistHandler(data)}
+            >
+              Remove
+            </button>
+          </div>
         </div>
-        {/* <div>
-          <BsCartPlus size={20} className="cursor-pointer" tile="Add to cart"
-           onClick={() => addToCartHandler(data)}
-          />
-        </div> */}
       </div>
     </div>
   );
