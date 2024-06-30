@@ -21,7 +21,7 @@ console.log("zzzz",order)
     <div className="flex items-start flex-grow">
           {image && (
             <div className="flex-none w-34">
-              <img src={image} alt={name} className="w-[80px] h-[80px] object-cover rounded" />
+              <img src={image} alt={name} className="w-[70px] h-[90px] object-cover rounded" />
             </div>
           )}
           <div className="flex flex-col justify-between flex-grow ml-4">

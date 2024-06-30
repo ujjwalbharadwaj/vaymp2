@@ -628,7 +628,7 @@ const Header = ({ activeHeading }) => {
             value={mobileSearchTerm}
             onChange={handlemobileSearchChange}
             onKeyDown={handleMobileSearchSubmit}
-            className="h-[40px] w-full px-2 border-[#3957db] border-[1px] rounded"
+            className="h-[40px] w-[98%] px-2 border-[#3957db] border-[1px] rounded ml-1"
           />
           <AiOutlineSearch
             size={30}
